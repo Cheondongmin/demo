@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+</head>
+<body>
+<script>
+    $(document).ready(function(){
+        init();
+    });
+
+    function init(){
+        var text = "";
+        $.ajax({
+            url: '/getFileList.do',
+            type: "GET",
+            dataType: 'JSON',
+            contentType : "application/json",
+            async: false,
+            success: function (data) {
+                text += '<ul>';
+                $.each(data, function(index, item) { // 데이터 =item
+                    text+=
+                        '<li><span>'+item.fileName+'</span>'
+                        +'<a href="/download.do?fileSaveName='+item.fileSaveName+'&fileName='+item.fileName+'">'+'[downLoad]'+'</a>';
+                });
+
+                $('.fileList').append(text);
+            },
+            error: function (err) {
+                alert("오류가 발생했습니다. \n 잠시후에 다시 시도해주세요.");
+            }
+        });
+    }
+</script>
+
+<h1>업로드 파일 목록</h1>
+    <div class="fileList">
+
+    </div>
+</body>
+</html>

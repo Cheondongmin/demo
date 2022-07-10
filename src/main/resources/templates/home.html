@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
+</head>
+<body>
+<script>
+    function fnFileSava(){
+        //dataform의 데이터를 전송
+        $("#dataForm").ajaxSubmit({
+            url : '/upload.do',
+            dataType: 'json',
+            processData: false,
+            contentType: false,
+            type: 'POST',
+            success: (data) => {
+                if(data.result) {
+                    alert("저장을 완료했습니다.");
+                    location.href="result.do";
+                } else {
+                    alert("오류가 발생했습니다.");
+                    window.location.reload();
+                }
+            }
+            ,error : (xhr, status, err) => {
+                console.log ( `ajax error` );
+                alert("오류가 발생했습니다. \n 파일 저장에 실패했습니다.");
+                location.href="libraryHome.html";
+            }
+            ,complete : () => {
+                console.log('ajax complete');
+            }
+        });
+    }
+</script>
+<h1>파일 업로드</h1>
+    <form id="dataForm" method="post" action="/upload.do" enctype="multipart/form-data">
+        <input type="file" name="uploadFile" multiple="multiple">
+    </form>
+    <button onclick="fnFileSava();">파일저장</button>
+    <a href="result.do">파일목록 보기</a>
+</body>
+</html>

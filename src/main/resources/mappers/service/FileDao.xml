@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.system.testProject.demo.dao.FileDao">
+
+    <!-- 파일 저장 후 로깅 -->
+    <insert id="insertFile" parameterType="fileVO">
+        INSERT INTO TB_FILE(
+            FILE_NAME
+           ,FILE_SAVE_NAME
+           ,FILE_SAVE_PATH
+           ,FILE_SIZE
+           ,FILE_EXT
+        ) VALUES (
+            #{fileName}
+            ,#{fileSaveName}
+            ,#{fileSavePath}
+            ,#{fileSize}
+            ,#{fileExt}
+        )
+    </insert>
+
+    <!-- 파일 목록 불러오기 -->
+    <select id="getFileList" parameterType="fileVO" resultType="fileVO">
+        SELECT
+            FILE_SAVE_NAME
+            ,FILE_NAME
+        FROM TB_FILE
+        WHERE USE_YN = 'Y'
+    </select>
+</mapper>
